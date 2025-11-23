@@ -1,9 +1,9 @@
-// src/app/api/transcribe/route.ts
+// src/demo/app/api/transcribe/route.ts
 
 import { NextRequest, NextResponse } from "next/server";
 import { OpenAI } from "openai";
 
-export const runtime = "edge"; // FAST + Vercel compatible
+export const runtime = "edge";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY!,
@@ -21,18 +21,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Convert video to buffer
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-
-    // Whisper auto handles MP4 → audio conversion internally
+    // Whisper automatically extracts audio from MP4, MOV, etc.
     const transcription = await openai.audio.transcriptions.create({
       model: "whisper-1",
-      file: {
-        name: file.name,
-        data: buffer,
-        type: file.type,
-      },
+      file, // ← fixed
       response_format: "verbose_json",
       timestamp_granularities: ["segment"],
     });
@@ -56,7 +48,6 @@ export async function POST(req: NextRequest) {
     );
   } catch (error: any) {
     console.error("Transcription error:", error);
-
     return NextResponse.json(
       {
         error: "Transcription failed",
