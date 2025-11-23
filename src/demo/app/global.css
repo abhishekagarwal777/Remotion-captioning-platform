@@ -1,4 +1,4 @@
-@keyframes slide-in-right {
+/* @keyframes slide-in-right {
   from {
     transform: translateX(100%);
     opacity: 0;
@@ -44,4 +44,4 @@
 
 .animate-slide-out-right {
   animation: slide-out-right 0.3s ease-out;
-}
+} */
