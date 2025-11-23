@@ -5,7 +5,7 @@ import { z } from 'zod';
 import path from 'path';
 import fs from 'fs/promises';
 import { OpenAI } from 'openai';
-import { AssemblyAI } from 'assemblyai';
+// import { AssemblyAI } from 'assemblyai';
 import ffmpeg from 'fluent-ffmpeg';
 import { promisify } from 'util';
 
