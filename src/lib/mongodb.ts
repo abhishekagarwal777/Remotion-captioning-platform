@@ -1,14 +1,19 @@
+import { MongoClient, GridFSBucket } from "mongodb";
 
+const uri = process.env.MONGODB_URI!;
+const dbName = process.env.MONGODB_DB!;
 
-// MongoDB removed — this is a stub so imports don't break
+let client: MongoClient | null = null;
 
 export async function getGridFSBucket() {
-  throw new Error("GridFS is disabled — MongoDB has been removed from this project.");
+  if (!client) {
+    client = new MongoClient(uri);
+    await client.connect();
+  }
+
+  const db = client.db(dbName);
+  return new GridFSBucket(db, { bucketName: "uploads" });
 }
-
-const clientPromise = Promise.resolve(null);
-export default clientPromise;
-
 
 
 
